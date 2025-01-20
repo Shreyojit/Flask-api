@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+  flask-api:
+    build: .
+    container_name: flask-api
+    ports:
+      - "5000:5000"
+    environment:
+      - DATABASE_URL=postgresql://prac-db_owner:FPnZSEl3vr1O@ep-curly-cloud-a5ukcwav.us-east-2.aws.neon.tech/funds-db?sslmode=require
+    depends_on:
+      - db
+
+  db:
+    image: postgres:14
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: prac-db_owner
+      POSTGRES_PASSWORD: FPnZSEl3vr1O
+      POSTGRES_DB: funds-db
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
